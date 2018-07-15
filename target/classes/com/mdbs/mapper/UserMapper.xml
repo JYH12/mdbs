@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mdbs.mapper.UserMapper">
+ <select id="selectUidByEmailAndPassword" resultType="int">
+       select uid from user where email=#{email} and password=#{password}
+ </select>
+   <select id="selectHeadUrl" resultType="String">
+        select headurl from user where uid=#{uid}
+    </select>
+  </mapper>

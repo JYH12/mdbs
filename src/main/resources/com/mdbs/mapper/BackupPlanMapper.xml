@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mdbs.mapper.BackupPlanMapper">
+  <!--  <select id="listBplanByUidAndTime" resultType="com.mdbs.pojo.BackupPlan">
+        select bid,plan_name,create_time,db_address,port,bpcycle,last_time,bp_instance,db_user,db_password from backupplan  
+        where uid=#{uid} order by bid desc limit #{offset},#{limit}
+    </select> -->
+    <select id="listBplanByUid" resultType="com.mdbs.pojo.BackupPlan">
+        select bid,plan_name,create_time,db_address,port,bpcycle,last_time from backupplan 
+        where uid=#{uid} order by bid desc
+    </select>
+<select id="getBplanByBid" resultType="com.mdbs.pojo.BackupPlan">
+        select bid,plan_name,create_time,db_address,db_user,db_password,port,bpcycle,last_time,next_time from backupplan   
+        where bid=#{bid}
+    </select>
+     <select id="getBplanCountByUid" resultType="int">
+        select count(*) from backupplan where uid=#{uid}
+    </select>
+    <insert id="insterBplan" parameterType="com.mdbs.pojo.BackupPlan">
+    <selectKey resultType="int" order="AFTER" keyProperty="bid">
+            select last_insert_id() as bid
+        </selectKey>
+    insert into backupplan(uid,plan_name,db_address,db_user,db_password,port,bpcycle,create_time,bp_instance,next_time)
+        values(#{uid},#{planName},#{dbAddress},#{dbUser},#{dbPassword},#{port},#{bpcycle},#{createTime},#{bpInstance},#{nextTime})
+    </insert>
+    <delete id="deleteBplan">
+    delete from backupplan where bid=#{bid}
+    </delete>
+    <update id="updateBplan">
+    update backupplan set plan_name=#{planName},db_address=#{dbAddress},db_user=#{dbUser},db_password=#{dbPassword},port=#{port}
+    bpcycle=#{bpcycle},bp_instance=#{bpInstance} where bid=#{bid}
+    </update>
+  <update id="updateTime">
+   update backupplan set last_time=#{lastTime},next_time=#{nextTime} where bid=#{bid}
+
+  </update>
+</mapper>
+

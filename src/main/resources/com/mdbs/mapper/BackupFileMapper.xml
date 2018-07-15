@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.mdbs.mapper.BackupFileMapper">
+<resultMap type="com.mdbs.pojo.BackupFile" id="FileMap">
+        <id column="fid" property="fid"/>
+        <result column="filename" property="fileNmae"/>
+        <result column="fileurl" property="fileUrl"/>
+        <result column="filecreatetime" property="createTime"/>
+    </resultMap>
+<select id="getFilePath" resultType="String">
+select file_url from backufile where fid=#{fid}
+</select>
+<select id="getFileListByTime" resultType="com.mdbs.pojo.BackupFile">
+ select fid,bid,file_name,file_url,file_createtime from backupfile where bid=#{bid} 
+ order by fid desc 
+</select>
+<select id="getFilePathByTime" resultType="String">
+select file_url from backupfile where bid=#{bid} and file_createtime&lt;=str_to_date(#{coveryTime},'%Y-%m-%d %T')
+order by file_createtime desc limit 1;
+</select>
+<insert id="insertFile">
+insert into backupfile(bid,file_name,file_url,file_createtime)
+        values(#{bid},#{fileName},#{fileUrl},#{fileCreateTime})
+</insert>
+</mapper>
