@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 
 <%
-response.sendRedirect("toLogin.do");
+response.sendRedirect("login.do");
 %>
 </head>
 <body>
